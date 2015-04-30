@@ -100,6 +100,7 @@ class VentanaCliente extends JFrame{
         p2.add(ta2);
         ta2.setSize(10,50);
         ta2.addMouseListener(new MouseAdapter(){
+            @Override
             public void mouseClicked(MouseEvent e){
                 ta2.setText("");
                 ta2.removeMouseListener(this);
@@ -108,6 +109,7 @@ class VentanaCliente extends JFrame{
         setVisible(true);
         conversacion="";
         b.addActionListener(new ActionListener(){
+            @Override
             public void actionPerformed(ActionEvent e){
                 mandarChat();
                 ta2.setText("");
@@ -138,6 +140,7 @@ class Conversacion extends Thread{
         activo=true;
         start();
     }
+    @Override
     public void run(){
         while(activo){
             try{

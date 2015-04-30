@@ -88,22 +88,21 @@ class Conexiones extends Thread{
     Herramientas h;
     Socket socket;
     MiServidor m;
-    String s;
+    boolean bucle;
     Buffer b;
     Conexiones(Herramientas h, Socket s, MiServidor m, Buffer b){
         this.h=h;
         this.socket=s;
         this.m=m;
-        this.s="";
         this.b=b;
+        bucle=true;
         start();
     }
     public void run(){
-        while(true){
+        while(bucle){
             try{
-                String asd;
-                b.meterBuffer(asd=h.dis.readUTF());
-                System.out.println(asd);
+                String texto=h.dis.readUTF();
+                b.meterBuffer(texto);
             }catch(IOException e){
                 cerrarRecursos();
             }
@@ -111,6 +110,7 @@ class Conexiones extends Thread{
     }
     public void cerrarRecursos(){
         m.cerrarConexión(this);
+        bucle=false;
         try{
             h.dis.close();
             h.dos.close();
