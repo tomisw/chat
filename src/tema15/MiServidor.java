@@ -89,28 +89,41 @@ class Conexiones extends Thread{
     Socket socket;
     MiServidor m;
     boolean bucle;
+    String texto;
+    String usuario;
     Buffer b;
     Conexiones(Herramientas h, Socket s, MiServidor m, Buffer b){
         this.h=h;
         this.socket=s;
         this.m=m;
         this.b=b;
+        try{
+            usuario=h.dis.readUTF();
+        }catch(IOException e){}
+        saludo();
         bucle=true;
         start();
     }
     public void run(){
         while(bucle){
             try{
-                String texto=h.dis.readUTF();
+                texto=h.dis.readUTF();
                 b.meterBuffer(texto);
             }catch(IOException e){
                 cerrarRecursos();
             }
         }
     }
+    private void saludo(){
+        texto=usuario+" ha entrado a la sala";
+        b.meterBuffer(texto);
+    }
+    
     public void cerrarRecursos(){
         m.cerrarConexión(this);
         bucle=false;
+        texto=usuario+" ha salido";
+        b.meterBuffer(texto);
         try{
             h.dis.close();
             h.dos.close();

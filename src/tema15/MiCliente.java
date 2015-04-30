@@ -11,20 +11,24 @@ public class MiCliente {
     VentanaCliente v;
     Conversacion c;
     boolean bucle;
+    String usuario;
     MiCliente(){
         try{
-            socket= new Socket(InetAddress.getLocalHost(),2525);
+            socket= new Socket(InetAddress.getLocalHost(),2525);           
+            h=new Herramientas(socket);
             j = new VentanaNombreUsuario();
             j.b.addActionListener(new ActionListener(){
                 public void actionPerformed(ActionEvent e){
                     crearVentanaChat();
                 }
             });
-            h=new Herramientas(socket);
         }catch(IOException e){}
     }
     public void crearVentanaChat(){
-        v = new VentanaCliente(j.tf.getText(),h);
+        v = new VentanaCliente(usuario=j.tf.getText(),h);
+        try{
+            h.dos.writeUTF(usuario);
+        }catch(IOException ioe){}
         v.addWindowListener(new WindowAdapter(){
             public void windowClosing(WindowEvent e){
                 liberarCliente();
@@ -78,12 +82,12 @@ class VentanaCliente extends JFrame{
     JButton b;
     JTextField ta2;
     Herramientas h;
-    String s;
+    String usuario;
     JScrollPane p1;
     String conversacion;
     VentanaCliente(String s,Herramientas h){
         super(s);
-        this.s=s;
+        this.usuario=s;
         this.h=h;
         setBounds(300,300,300,300);
         ta1= new JTextArea();
@@ -120,7 +124,7 @@ class VentanaCliente extends JFrame{
     
     public void mandarChat(){
         try{
-            h.dos.writeUTF(s+": "+ta2.getText());
+            h.dos.writeUTF(usuario+": "+ta2.getText());
         }catch(IOException ioe){}
     }
     
