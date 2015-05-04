@@ -28,7 +28,7 @@ public class MiServidor {
             }
         }catch(IOException e){}
     }
-    public void cerrarConexión(Conexiones c){
+    public void cerrarConexion(Conexiones c){
         clientes.remove(c);
     }
     
@@ -120,7 +120,7 @@ class Conexiones extends Thread{
     }
     
     public void cerrarRecursos(){
-        m.cerrarConexión(this);
+        m.cerrarConexion(this);
         bucle=false;
         texto=usuario+" ha salido";
         b.meterBuffer(texto);
