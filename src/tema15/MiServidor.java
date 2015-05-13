@@ -9,9 +9,9 @@ public class MiServidor {
     ArrayList clientes;
     Buffer b;
     public static void main(String args[]){
-        new MiServidor();
+        new MiServidor(5);
     }
-    MiServidor(){
+    MiServidor(int asd){
         try{
             servidor=new ServerSocket(2525);
             System.out.println("Esperando Clientes");
